@@ -1,24 +1,22 @@
 import './App.css'
-import { Box, Button, Heading, VStack, Card, CardHeader, CardBody, CardFooter , Input} from "@chakra-ui/react"
+import Gallery from './pages/gallery/Gallery'
+import Login from './pages/login/Login'
+import Editor from './pages/editor/Editor'
+import { Navigate, Routes, Route } from 'react-router-dom'
 
 function App() {
 
   return (
-    <>
-      <Box minH="100vh" minW="100vw" display="flex" alignItems="center" justifyContent="center" bgGradient="linear(to-br, blue.900, blue.700, purple.900)">
-        <VStack spacing={6}>
-          <Card>
-            <CardHeader><Heading>ImageVault</Heading></CardHeader>
-            <CardBody>
-              <Input placeholder='Username' margin="0.5rem" />
-              <Input placeholder='Password' margin="0.5rem"/>
-              <Button colorScheme="blue">Login</Button>
-            </CardBody>
-            <CardFooter>Designed and Deployed By Akila Paranawithana</CardFooter>
-          </Card>
-        </VStack>
-      </Box>
-    </>
+    <Routes>
+      <Route path="/login" element={<Login/>}/>
+      <Route path="/gallery" element={<Gallery/>}/>
+      <Route path="/editor" element={<Editor/>}/>
+
+      {/** Setting up default routes */}
+      <Route path="/" element={<Navigate to="/gallery" replace />}/>
+      {/** Wildcard route */}
+      <Route path="*" element={<Navigate to="/gallery" replace />}/>
+    </Routes>
   )
 }
 
