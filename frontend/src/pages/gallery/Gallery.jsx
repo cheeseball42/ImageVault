@@ -24,11 +24,11 @@ function GalleryTile({url, deleteImage}){
         {/* <CardHeader></CardHeader> */}
         <CardBody>
             <AspectRatio ratio={3/2} w="full">
-            <Image src={url} loading="lazy" objectFit="cover"/>
+                <Image src={url} loading="lazy" objectFit="cover"/>
             </AspectRatio>
         </CardBody>
         <CardFooter display="flex" alignItems="center" justifyContent="center">
-            <IconButton onClick={()=>{navigate("/editor")}} icon={<FiEdit/>} colorScheme="blue" variant="ghost" aria-label="Delete image"></IconButton>
+            <IconButton onClick={()=>{navigate("/editor")}} icon={<FiEdit/>} colorScheme="blue" variant="ghost" aria-label="Edit image"></IconButton>
             <IconButton onClick={deleteImage} icon={<FiTrash2/>} colorScheme="red" variant="ghost" aria-label="Delete image"></IconButton>
         </CardFooter>
     </Card>

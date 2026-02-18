@@ -1,13 +1,25 @@
-import { Box, Button, Heading, VStack, Card, CardHeader, CardBody, CardFooter , Input} from "@chakra-ui/react"
+import { Box, Button, IconButton, HStack, Heading, VStack, Card, CardHeader, CardBody, CardFooter, Image, Input, AspectRatio} from "@chakra-ui/react";
+import {FiRefreshCcw, FiCheck} from "react-icons/fi";
+import {useNavigate} from "react-router-dom";
 
 function Transform(){
+    const navigate = useNavigate();
+
     return (<Box minH="100vh" minW="100vw" display="flex" alignItems="center" justifyContent="center" bgGradient="linear(to-br, blue.900, blue.700, purple.900)">
         <VStack spacing={6}>
-            <Card>
-                <CardHeader><Heading>ImageVault - Editor</Heading></CardHeader>
+            <Card w="90vw" margin={"10"} bgColor="whiteAlpha.500">
+                <CardHeader><Heading color="brand.main">ImageVault - Editor</Heading></CardHeader>
                 <CardBody>
+                    <AspectRatio ratio={3/2} w="full" maxW={{ base: "100%", md: "600px" }} mx="auto">
+                        <Image src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&h=400&fit=crop" objectFit="cover"/>
+                    </AspectRatio>
                 </CardBody>
-                <CardFooter>Designed and Deployed By Akila Paranawithana</CardFooter>
+                <CardFooter w="full">
+                    <HStack justify="center" spacing={4} mx="auto">
+                        <Button leftIcon={<FiRefreshCcw/>} colorScheme='blue' mx="auto">Apply</Button>
+                        <Button leftIcon={<FiCheck/>} colorScheme='green' mx="auto" onClick={()=>navigate("/gallery")}>Save</Button>
+                    </HStack>
+                </CardFooter>
             </Card>
         </VStack>
     </Box>)
