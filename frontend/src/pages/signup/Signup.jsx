@@ -1,8 +1,9 @@
-import { Box, Button, VStack, Card, CardHeader, CardBody, CardFooter , Input} from "@chakra-ui/react";
+import { Box, Button, VStack, Card, CardHeader, CardBody, CardFooter} from "@chakra-ui/react";
 import {FiUserPlus} from "react-icons/fi";
 import {useNavigate, Link} from "react-router-dom";
 import Title from "../../components/title/Title";
 import {FooterText} from "../../components/footer/Footer";
+import Input from "../../components/input/Input";
 
 function Signup(){
     const navigate = useNavigate();
@@ -12,11 +13,11 @@ function Signup(){
             <Card bgColor="whiteAlpha.500" maxW="500px">
                 <CardHeader minW="full" display="flex" alignItems="center" justifyContent="center"><Title/></CardHeader>
                 <CardBody>
-                  <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Username' margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
-                  <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Email' type="email" margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
-                  <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Password' type="password" margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
-                  <Button colorScheme="blue" leftIcon={<FiUserPlus />} onClick={()=>navigate("/login")}>Signup</Button>
-                  <Box marginTop={"35px"}>Already have an account? <br/><Link to="/login">Login here.</Link></Box>
+                    <Input type="username"/>
+                    <Input type="email"/>
+                    <Input type="password"/>
+                    <Button colorScheme="blue" leftIcon={<FiUserPlus />} onClick={()=>navigate("/login")}>Signup</Button>
+                    <Box marginTop={"35px"}>Already have an account? <br/><Link to="/login">Login here</Link></Box>
                 </CardBody>
                 <CardFooter><FooterText/></CardFooter>
             </Card>

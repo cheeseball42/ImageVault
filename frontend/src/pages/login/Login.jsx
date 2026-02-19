@@ -1,8 +1,9 @@
-import { Box, Button, Heading, VStack, Card, CardHeader, CardBody, CardFooter , Input} from "@chakra-ui/react";
+import { Box, Button, Heading, VStack, Card, CardHeader, CardBody, CardFooter} from "@chakra-ui/react";
 import {FiLogIn} from "react-icons/fi";
 import {useNavigate, Link} from "react-router-dom";
 import Title from "../../components/title/Title";
 import {FooterText} from "../../components/footer/Footer";
+import Input from "../../components/input/Input"
 
 function Login(){
     const navigate = useNavigate();
@@ -12,10 +13,10 @@ function Login(){
             <Card bgColor="whiteAlpha.500" maxW="500px">
                 <CardHeader minW="full" display="flex" alignItems="center" justifyContent="center"><Title/></CardHeader>
                 <CardBody>
-                    <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Username' margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
-                    <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Password' type="password" margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
+                    <Input type="username"/>
+                    <Input type="password"/>
                     <Button colorScheme="blue" leftIcon={<FiLogIn />} onClick={()=>navigate("/gallery")}>Login</Button>
-                    <Box marginTop={"35px"}>Don't have an account? <br/><Link to="/signup">Signup here.</Link></Box>
+                    <Box marginTop={"35px"}>Don't have an account? <br/><Link to="/signup">Signup here</Link></Box>
                 </CardBody>
                 <CardFooter><FooterText/></CardFooter>
             </Card>
