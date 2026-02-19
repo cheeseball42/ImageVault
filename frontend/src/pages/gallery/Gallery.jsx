@@ -1,7 +1,8 @@
-import { Box, IconButton, Heading, SimpleGrid, Card, CardHeader, CardBody, CardFooter , Input, Image, AspectRatio} from "@chakra-ui/react"
-import {FiTrash2, FiUploadCloud, FiEdit} from "react-icons/fi"
+import { Menu, MenuButton, MenuItem, MenuList, Box, IconButton, Heading, SimpleGrid, Avatar, Card, CardBody, CardFooter , Image, AspectRatio} from "@chakra-ui/react"
+import {FiTrash2, FiUploadCloud, FiEdit, FiLock} from "react-icons/fi"
 import {useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import NavBar from "../../components/navbar/NavBar";
 
 export const sampleImages = [
   "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&h=400&fit=crop",
@@ -44,7 +45,8 @@ function Gallery({images, setImages}){
     const openFilePicker = () => {fileInputRef.current?.click();}
     const fileInputRef = useRef()
     return (<Box minH="100vh" minW="100vw" display="flex" alignItems="center" justifyContent="center" bgGradient="linear(to-br, blue.900, blue.700, purple.900)">
-        <SimpleGrid columns={[1, 2, 3, 4]} w="full" spacing={6} padding={3}>
+        <NavBar/>
+        <SimpleGrid marginTop="71" columns={[1, 2, 3, 4]} w="full" spacing={6} padding={3}>
             {images.map((image)=><GalleryTile key={image.key} url={image.url} deleteImage={()=>{setImages(images.filter(i=>i.key != image.key))}}/>)}
         </SimpleGrid>
         <input ref={fileInputRef} type="file" accept="image/*" style={{display: "none"}} onChange={onFileSelected}/>

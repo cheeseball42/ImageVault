@@ -1,12 +1,14 @@
-import { Box, Button, Tab, Tabs, TabList, TabPanels, TabPanel, HStack, Heading, VStack, Card, CardHeader, CardBody, CardFooter, Image, Input, AspectRatio} from "@chakra-ui/react";
+import { Box, Avatar, Button, Tab, Tabs, TabList, TabPanels, TabPanel, HStack, Heading, VStack, Card, CardHeader, CardBody, CardFooter, Image, Input, AspectRatio} from "@chakra-ui/react";
 import {FiCheck, FiRefreshCw} from "react-icons/fi";
 import {useNavigate} from "react-router-dom";
+import NavBar from "../../components/navbar/NavBar";
 
 function Transform(){
     const navigate = useNavigate();
 
     return (<Box minH="100vh" minW="100vw" display="flex" alignItems="center" justifyContent="center" bgGradient="linear(to-br, blue.900, blue.700, purple.900)">
-        <VStack spacing={6}>
+        <NavBar/>
+        <VStack spacing={6} marginTop="70">
             <Card w="90vw" margin={"10"} bgColor="whiteAlpha.500">
                 {/* <CardHeader><Heading color="brand.main">ImageVault - Editor</Heading></CardHeader> */}
                 <CardBody>
