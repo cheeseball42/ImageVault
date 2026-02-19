@@ -3,6 +3,7 @@ import {FiTrash2, FiUploadCloud, FiEdit, FiLock} from "react-icons/fi"
 import {useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import NavBar from "../../components/navbar/NavBar";
+import Footer from "../../components/footer/Footer";
 
 export const sampleImages = [
   "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&h=400&fit=crop",
@@ -46,11 +47,12 @@ function Gallery({images, setImages}){
     const fileInputRef = useRef()
     return (<Box minH="100vh" minW="100vw" display="flex" alignItems="center" justifyContent="center" bgGradient="linear(to-br, blue.900, blue.700, purple.900)">
         <NavBar/>
-        <SimpleGrid marginTop="71" columns={[1, 2, 3, 4]} w="full" spacing={6} padding={3}>
+        <SimpleGrid marginTop="71" marginBottom="7" columns={[1, 2, 3, 4]} w="full" spacing={6} padding={3}>
             {images.map((image)=><GalleryTile key={image.key} url={image.url} deleteImage={()=>{setImages(images.filter(i=>i.key != image.key))}}/>)}
         </SimpleGrid>
         <input ref={fileInputRef} type="file" accept="image/*" style={{display: "none"}} onChange={onFileSelected}/>
-        <IconButton onClick={openFilePicker} w="20" h="20" borderRadius={"full"} icon={<FiUploadCloud fontSize={40}/>} position="fixed" colorScheme="blue" variant="solid" right={6} bottom={6}></IconButton>
+        <IconButton onClick={openFilePicker} w="20" h="20" borderRadius={"full"} icon={<FiUploadCloud fontSize={40}/>} position="fixed" colorScheme="blue" variant="solid" right={4} bottom={9}></IconButton>
+        <Footer/>
     </Box>)
 }
 

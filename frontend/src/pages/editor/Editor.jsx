@@ -2,6 +2,7 @@ import { Box, Avatar, Button, Tab, Tabs, TabList, TabPanels, TabPanel, HStack, H
 import {FiCheck, FiRefreshCw} from "react-icons/fi";
 import {useNavigate} from "react-router-dom";
 import NavBar from "../../components/navbar/NavBar";
+import Footer from "../../components/footer/Footer";
 
 function Transform(){
     const navigate = useNavigate();
@@ -43,6 +44,7 @@ function Transform(){
                 </CardFooter>
             </Card>
         </VStack>
+        <Footer/>
     </Box>)
 }
 
