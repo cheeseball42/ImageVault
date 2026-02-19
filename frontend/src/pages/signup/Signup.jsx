@@ -1,5 +1,5 @@
 import { Box, Button, VStack, Card, CardHeader, CardBody, CardFooter , Input} from "@chakra-ui/react";
-import {FiLogIn} from "react-icons/fi";
+import {FiUserPlus} from "react-icons/fi";
 import {useNavigate, Link} from "react-router-dom";
 import Title from "../../components/title/Title";
 import {FooterText} from "../../components/footer/Footer";
@@ -15,7 +15,7 @@ function Signup(){
                   <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Username' margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
                   <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Email' type="email" margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
                   <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Password' type="password" margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
-                  <Button colorScheme="blue" leftIcon={<FiLogIn />} onClick={()=>navigate("/gallery")}>Signup</Button>
+                  <Button colorScheme="blue" leftIcon={<FiUserPlus />} onClick={()=>navigate("/login")}>Signup</Button>
                   <Box marginTop={"35px"}>Already have an account? <br/><Link to="/login">Login here.</Link></Box>
                 </CardBody>
                 <CardFooter><FooterText/></CardFooter>
