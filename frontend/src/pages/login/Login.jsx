@@ -15,7 +15,7 @@ function Login(){
                     <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Username' margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
                     <Input backgroundColor={"whiteAlpha.800"} boxShadow="inset 0 2px 6px rgba(0,0,0,0.15)" placeholder='Password' type="password" margin="0.5rem" _placeholder={{color: "brand.greyshift"}}/>
                     <Button colorScheme="blue" leftIcon={<FiLogIn />} onClick={()=>navigate("/gallery")}>Login</Button>
-                    <Box marginTop={"35px"}>Already have an account? <br/><Link to="/signup">Signup here.</Link></Box>
+                    <Box marginTop={"35px"}>Don't have an account? <br/><Link to="/signup">Signup here.</Link></Box>
                 </CardBody>
                 <CardFooter><FooterText/></CardFooter>
             </Card>
