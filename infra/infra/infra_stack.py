@@ -168,6 +168,16 @@ class InfraStack(Stack):
             bucket.bucket_name,
         )
 
+        alb_service.task_definition.default_container.add_environment(
+            "AWS_ACCOUNT_ID",
+            self.account,
+        )
+
+        alb_service.task_definition.default_container.add_environment(
+            "AWS_REGION",
+            self.region,
+        )
+
         CfnOutput(self, "BucketName", value=bucket.bucket_name)
         CfnOutput(self, "CloudFrontDomain", value=distribution.domain_name)
 
