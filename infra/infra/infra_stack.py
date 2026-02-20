@@ -3,7 +3,14 @@ from aws_cdk import (
     Stack,
     # aws_sqs as sqs,
     RemovalPolicy,
-    aws_cognito as cognito
+    aws_cognito as cognito,
+    aws_apigatewayv2 as apigwv2,
+    aws_apigatewayv2_authorizers as apigw_auth,
+    aws_apigatewayv2_integrations as apigw_int,
+    aws_ecs_patterns as ecs_patterns,
+    aws_ecr_assets as ecr_assets,
+    aws_ecs as ecs,
+    aws_apigatewayv2_integrations as apigw_int
 )
 from constructs import Construct
 
@@ -61,6 +68,64 @@ class InfraStack(Stack):
 
         # Safety: prevents accidental deletion if someone runs `cdk destroy`.
         imported_user_pool.apply_removal_policy(RemovalPolicy.RETAIN)
+
+        # CREATING JWT AUTHORIZER AND HTTP API GATEWAY
+        user_pool = cognito.UserPool.from_user_pool_id(
+            self,
+            "AuthUserPoolRef",
+            imported_user_pool.ref,  # This is the UserPoolId
+        )
+
+        api_client = cognito.UserPoolClient(
+            self,
+            "ApiClient",
+            user_pool=user_pool,
+            auth_flows=cognito.AuthFlow(user_password=True, user_srp=True),
+            generate_secret=False,  # typical for public clients
+        )
+
+        http_api = apigwv2.HttpApi(self, "HttpApi")
+
+        issuer = f"https://cognito-idp.{self.region}.amazonaws.com/{user_pool.user_pool_id}"
+
+        jwt_auth = apigw_auth.HttpJwtAuthorizer("JwtAuth", jwt_issuer=issuer, jwt_audience=[api_client.user_pool_client_id])
+
+        # Adding in ECS and ALB
+        alb_service = ecs_patterns.ApplicationLoadBalancedFargateService(
+            self,
+            "AppService",
+            task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
+                image=ecs.ContainerImage.from_asset(
+                    directory="../app",
+                    file="Dockerfile",
+                    # build_args={"NODE_ENV": "production"},
+                    platform=ecr_assets.Platform.LINUX_AMD64,
+                ),
+                container_port=80,
+            ),
+            public_load_balancer=False,  # keeping it private to use API Gateway as the front door
+        )
+        listener = alb_service.listener
+
+        # Linking API Gateway with ALB Service through a protected route
+        vpc_link = apigwv2.VpcLink(
+            self,
+            "ApiVpcLink",
+            vpc=alb_service.cluster.vpc,
+        )
+
+        alb_integration = apigw_int.HttpAlbIntegration(
+            "AlbIntegration",
+            listener=listener,
+            vpc_link=vpc_link,
+        )
+
+        http_api.add_routes(
+            path="/app/{proxy+}",
+            methods=[apigwv2.HttpMethod.ANY],
+            integration=alb_integration,
+            authorizer=jwt_auth,
+        )
 
         # example resource
         # queue = sqs.Queue(
