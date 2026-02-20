@@ -5,6 +5,8 @@ import aws_cdk as cdk
 
 from infra.infra_stack import InfraStack
 
+env = cdk.Environment(account="038625728512", region="ap-southeast-2")
+
 
 app = cdk.App()
 InfraStack(app, "InfraStack",
