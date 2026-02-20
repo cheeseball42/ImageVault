@@ -10,7 +10,13 @@ from aws_cdk import (
     aws_ecs_patterns as ecs_patterns,
     aws_ecr_assets as ecr_assets,
     aws_ecs as ecs,
-    aws_apigatewayv2_integrations as apigw_int
+    aws_apigatewayv2_integrations as apigw_int,
+    aws_s3 as s3,
+    aws_iam as iam,
+    aws_cloudfront as cloudfront,
+    aws_cloudfront_origins as origins,
+    Duration,
+    CfnOutput
 )
 from constructs import Construct
 
@@ -126,6 +132,32 @@ class InfraStack(Stack):
             integration=alb_integration,
             authorizer=jwt_auth,
         )
+
+        # CREATING AN S3 BUCKET AND GIVING ECS ACCESS
+
+        bucket = s3.Bucket(
+            self,
+            "ImageVault",
+            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+            encryption=s3.BucketEncryption.S3_MANAGED,
+            enforce_ssl=True,
+        )
+
+        bucket.grant_read_write(alb_service.task_definition.task_role)
+
+        distribution = cloudfront.Distribution(
+            self,
+            "ImageVaultCdn",
+            default_behavior=cloudfront.BehaviorOptions(
+                origin=origins.S3BucketOrigin.with_origin_access_control(bucket),
+                viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+                cache_policy=cloudfront.CachePolicy.CACHING_OPTIMIZED,
+                allowed_methods=cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
+            ),
+        )
+
+        CfnOutput(self, "BucketName", value=bucket.bucket_name)
+        CfnOutput(self, "CloudFrontDomain", value=distribution.domain_name)
 
         # example resource
         # queue = sqs.Queue(
