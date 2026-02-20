@@ -133,7 +133,7 @@ class InfraStack(Stack):
             authorizer=jwt_auth,
         )
 
-        # CREATING AN S3 BUCKET AND GIVING ECS ACCESS
+        # CREATING AN S3 BUCKET, CLOUDFRONT DISTRIBUTION, AND GIVING ECS ACCESS
 
         bucket = s3.Bucket(
             self,
@@ -149,11 +149,23 @@ class InfraStack(Stack):
             self,
             "ImageVaultCdn",
             default_behavior=cloudfront.BehaviorOptions(
-                origin=origins.S3BucketOrigin.with_origin_access_control(bucket),
+                origin=origins.S3BucketOrigin.with_origin_access_control(
+                    bucket,
+                    origin_path="/public"
+                ),
                 viewer_protocol_policy=cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
                 cache_policy=cloudfront.CachePolicy.CACHING_OPTIMIZED,
                 allowed_methods=cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
             ),
+        )
+
+        alb_service.task_definition.default_container.add_environment(
+            "CLOUDFRONT_DOMAIN",
+            distribution.domain_name,
+        )
+        alb_service.task_definition.default_container.add_environment(
+            "S3_BUCKET_NAME",
+            bucket.bucket_name,
         )
 
         CfnOutput(self, "BucketName", value=bucket.bucket_name)
